@@ -9,21 +9,9 @@ public class Club : MonoBehaviour
     // Start is called before the first frame update
 
     private float CurrentEnergy;
-
-    private Vector3 _DefaultPosition;
-    private Vector3 DefaultPosition
-    {
-        get
-        {
-            return new Vector3(_DefaultPosition.x, _DefaultPosition.y, _DefaultPosition.z);
-        }
-        set
-        {
-            _DefaultPosition = new Vector3(value.x, value.y, value.z);
-        }
-    }
-
     private int speed = 10;
+    private Vector3 DefaultPosition;
+    private bool currentlyShoot;
 
     void Start()
     {
@@ -35,58 +23,63 @@ public class Club : MonoBehaviour
     void Update()
     {
         ManageClubShoot();
-        ManageClubDirectionnal();
+
+        if (IsDirectionnalKeyPressed())
+        {
+            ManageClubDirectionnal();
+        }
     }
 
     private void ManageClubDirectionnal()
     {
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            Vector3 rotationToAdd = new Vector3(2, 0, 0) * speed / 10000;
-            transform.Rotate(rotationToAdd);
-        }
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            Vector3 rotationToAdd = new Vector3(-2, 0, 0) * speed / 10000;
-            transform.Rotate(rotationToAdd);
-        }
+        Vector3 rotationToAdd = Vector3.zero;
+
+        rotationToAdd += Input.GetKey(KeyCode.LeftArrow) ? Vector3.up : Vector3.zero;
+        rotationToAdd += Input.GetKey(KeyCode.RightArrow) ? Vector3.down : Vector3.zero;
+
+        transform.Rotate(rotationToAdd * speed / 100);
+    }
+
+    private bool IsDirectionnalKeyPressed()
+    {
+        return Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow);
     }
 
     private void ManageClubShoot()
     {
         if (Input.GetKey("space"))
         {
-            CurrentEnergy += 0.5f;
+            currentlyShoot = true;
             RotateClub();
         }
-        else if (CurrentEnergy > 0)
+        else if (CurrentEnergy < 500 && currentlyShoot)
         {
             ThrowBall();
         }
-
-        if (CurrentEnergy >= 100)
+        else if (CurrentEnergy > 0)
         {
-            ResetClub();
+            currentlyShoot = false;
+            RotateClub(reverse: true);
+        }
+        else
+        {
+            CurrentEnergy = 0;
+            currentlyShoot=false;
         }
     }
 
     private void ThrowBall()
     {
-        throw new NotImplementedException();
-    }
-
-    private void RotateClub()
-    {
-        Vector3 rotationToAdd = new Vector3(0, CurrentEnergy, 0) * speed / 2000;
-        transform.Rotate(rotationToAdd);
-    }
-
-    private void ResetClub()
-    {
-        while (Input.GetKey("space"))
+        if (CurrentEnergy > -400)
         {
-            CurrentEnergy = 0;
-            transform.SetPositionAndRotation(DefaultPosition, Quaternion.identity);
+            RotateClub(reverse : true);
         }
+    }
+
+    private void RotateClub(bool reverse = false)
+    {
+        CurrentEnergy += reverse ? -4f : 0.5f;
+        Vector3 directionnal = (reverse ? Vector3.right * 8 : Vector3.left) * speed / 100;
+        transform.Rotate(directionnal);
     }
 }
