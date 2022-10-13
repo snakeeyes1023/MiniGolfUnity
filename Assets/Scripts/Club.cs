@@ -6,7 +6,14 @@ using UnityEngine;
 
 public class Club : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public INiveauInfo NiveauLier { get; private set; }
+
+    public event Action<INiveauInfo> OnCoupEffectuer;
+    public void LierAuNiveau(INiveauInfo niveau)
+    {
+        NiveauLier = niveau;
+    }
+
 
     private float CurrentEnergy;
     private int speed = 10;
@@ -70,6 +77,8 @@ public class Club : MonoBehaviour
 
     private void ThrowBall()
     {
+        OnCoupEffectuer?.Invoke(NiveauLier);
+
         if (CurrentEnergy > -400)
         {
             RotateClub(reverse : true);

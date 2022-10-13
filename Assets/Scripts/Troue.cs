@@ -4,15 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Hole : MonoBehaviour
+public class Troue : MonoBehaviour
 {
-    public event Action OnLevelSucess;
+    public event Action OnBallEnter;
 
     void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.GetComponent<Ball>() is Ball ball)
         {
-            OnLevelSucess?.Invoke();
+            OnBallEnter?.Invoke();
         }
     }
 }
