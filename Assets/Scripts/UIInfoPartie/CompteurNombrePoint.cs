@@ -7,24 +7,24 @@ using UnityEngine;
 [RequireComponent(typeof(TextMeshProUGUI))]
 public class CompteurNombrePoint : MonoBehaviour
 {
-    private TextMeshProUGUI etiquette;
+    private TextMeshProUGUI Etiquette;
     public GestionnaireNiveau GestionnaireNiveau;
-    public Club baton;
+    public Balle Balle;
 
 
     void Start()
     {
-        etiquette = GetComponent<TextMeshProUGUI>();
-        baton.OnCoupEffectuer += OnCoupFait;  
+        Etiquette = GetComponent<TextMeshProUGUI>();
+        Balle.OnCoupEffectuer += OnCoupFait;  
     }
     
     public void OnCoupFait(INiveauInfo niveau)
     {
-        etiquette.text = $"{(niveau.GetNombreCoupSuggerer() * -1) + niveau.TotalCoupFaitActuel}";
+        Etiquette.text = $"{(niveau.GetNombreCoupSuggerer() * -1) + niveau.TotalCoupFaitActuel}";
     }
 
     public void OnNouveauNiveauOuvert(INiveauInfo nouveauNiveau)
     {
-        etiquette.text = $"{nouveauNiveau.GetNombreCoupSuggerer()}";
+        Etiquette.text = $"{nouveauNiveau.GetNombreCoupSuggerer()}";
     }
 }

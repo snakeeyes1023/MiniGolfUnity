@@ -14,8 +14,6 @@ public class NiveauBase : MonoBehaviour, INiveauInfo
 
     [Header("Information du niveau")]
     public int Par;
-
-    [Header("Nom du niveau")]
     public string Nom;
     public int Niveau;
 
@@ -33,24 +31,39 @@ public class NiveauBase : MonoBehaviour, INiveauInfo
 
     #region Built IN
 
-    void Start()
+    public void Awake()
     {
-        if (Troue is Troue hole)
+        if (Troue is Troue troue)
         {
-            hole.OnBallEnter += NiveauTerminer;
+            troue.OnBalleDansTroue += NiveauTerminer;
         }
     }
 
     #endregion
 
+    /// <summary>
+    /// Niveaus the terminer.
+    /// </summary>
     public void NiveauTerminer()
     {
         NiveauTermine = true;
         OnNiveauReussi?.Invoke(this);
     }
 
+    /// <summary>
+    /// Gets the nombre coup suggerer (PAR).
+    /// </summary>
+    /// <returns></returns>
     public int GetNombreCoupSuggerer()
     {
         return Par;
+    }
+
+    /// <summary>
+    /// Ajouter un coup au niveau.
+    /// </summary>
+    public void AjouterUnCoup()
+    {
+        TotalCoupFaitActuel++;
     }
 }

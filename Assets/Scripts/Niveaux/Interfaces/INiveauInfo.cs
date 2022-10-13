@@ -4,8 +4,14 @@ using UnityEngine;
 
 public interface INiveauInfo
 {
+    #region Props
     int NoNiveau { get; }
-    int GetNombreCoupSuggerer();
     int TotalCoupFaitActuel { get; }
     bool NiveauTermine { get; }
+    #endregion
+
+    #region Methods
+    void AjouterUnCoup();
+    int GetNombreCoupSuggerer();
+    #endregion
 }

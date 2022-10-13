@@ -13,7 +13,7 @@ public class CompteurNiveauActuel : MonoBehaviour
     private TextMeshProUGUI etiquette;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         etiquette = GetComponent<TextMeshProUGUI>();
 

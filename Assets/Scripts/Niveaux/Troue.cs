@@ -6,13 +6,13 @@ using UnityEngine;
 
 public class Troue : MonoBehaviour
 {
-    public event Action OnBallEnter;
+    public event Action OnBalleDansTroue;
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.GetComponent<Ball>() is Ball ball)
+        if (collision.collider.GetComponent<Balle>() is Balle ball)
         {
-            OnBallEnter?.Invoke();
+            OnBalleDansTroue?.Invoke();
         }
     }
 }
